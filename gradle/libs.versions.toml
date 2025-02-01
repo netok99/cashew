@@ -1,0 +1,79 @@
+[versions]
+arrow = "2.0.1"
+arrowGradleConfig = "0.12.0-rc.26"
+coroutines = "1.10.1"
+detekt = "1.23.7"
+dokka = "2.0.0"
+kotlin = "2.1.10"
+kover = "0.9.1"
+testcontainers = "1.19.3"
+kotlin-version = "2.1.10"
+ktor-version = "3.0.3"
+logback-version = "1.5.16"
+hikari = "6.2.1"
+sqldelight = "2.0.0"
+postgresql = "42.7.5"
+suspendapp = "0.5.0"
+cohort = "2.3.1"
+
+[libraries]
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
+arrow-fx = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrow" }
+suspendapp = { module = "io.arrow-kt:suspendapp", version.ref = "suspendapp" }
+suspendapp-ktor = { module = "io.arrow-kt:suspendapp-ktor", version.ref = "suspendapp" }
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor-version" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor-version" }
+ktor-server-defaultheaders = { module = "io.ktor:ktor-server-default-headers", version.ref = "ktor-version" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor-version" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor-version" }
+ktor-client-resources = { module = "io.ktor:ktor-client-resources", version.ref = "ktor-version" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor-version" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor-version" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-version" }
+ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml", version.ref = "ktor-version" }
+ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor-version" }
+ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor-version" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-version" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
+sqldelight-jdbc = { module = "app.cash.sqldelight:jdbc-driver", version.ref = "sqldelight" }
+sqldelight-postgresql = { module = "app.cash.sqldelight:postgresql-dialect", version.ref = "sqldelight" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+cohort-core = { module = "com.sksamuel.cohort:cohort-core", version.ref = "cohort" }
+cohort-hikari = { module = "com.sksamuel.cohort:cohort-hikari", version.ref = "cohort" }
+
+[plugins]
+arrowGradleConfig-formatter = { id = "io.arrow-kt.arrow-gradle-config-formatter", version.ref = "arrowGradleConfig" }
+arrowGradleConfig-kotlin = { id = "io.arrow-kt.arrow-gradle-config-kotlin", version.ref = "arrowGradleConfig" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor-version" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+
+[bundles]
+arrow = ["arrow-core", "arrow-fx"]
+suspendapp = ["suspendapp", "suspendapp-ktor"]
+ktor-server = [
+    "ktor-server-core",
+    "ktor-server-content-negotiation",
+    "ktor-server-defaultheaders",
+    "ktor-server-netty",
+    "ktor-serialization",
+    "ktor-server-config-yaml",
+    "ktor-server-test-host"
+]
+ktor-client = [
+    "ktor-client-content-negotiation",
+    "ktor-client-serialization",
+    "ktor-client-resources"
+]
+cohort = [
+    "cohort-core",
+    "cohort-hikari"
+]
