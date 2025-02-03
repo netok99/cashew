@@ -6,7 +6,8 @@ import arrow.fx.coroutines.resourceScope
 import com.environment.Env
 import com.environment.Dependencies
 import com.environment.dependencies
-import com.wallet.entity.initialWalletSetup
+import com.account.accountsRoutes
+import com.transaction.transactionRoutes
 import com.wallet.walletRoutes
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -18,10 +19,6 @@ import io.ktor.server.resources.Resources
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.serialization.json.Json
-
-val wallet = initialWalletSetup()
-
-var mutableWallet = wallet.toMutableMap()
 
 fun main(): Unit = SuspendApp {
     val env = Env()
@@ -47,11 +44,14 @@ fun Application.configure() {
             Json {
                 isLenient = true
                 ignoreUnknownKeys = true
+                encodeDefaults = false
             }
         )
     }
 }
 
 fun Application.routes(dependencies: Dependencies) = routing {
-    walletRoutes(dependencies)
+    accountsRoutes(dependencies.accountUseCase)
+    transactionRoutes(dependencies.transactionUseCase)
+    walletRoutes(dependencies.walletUseCase)
 }

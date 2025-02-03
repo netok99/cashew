@@ -41,11 +41,6 @@ fun String.validMcc(): EitherNel<InvalidMcc, String> {
     }.mapLeft(toInvalidField(::InvalidMcc))
 }
 
-fun String.validAccount(): Either<InvalidAccount, String> =
-    trim()
-        .notBlank()
-        .mapLeft(::InvalidAccount)
-
 fun String.validMerchant(): Either<InvalidMerchant, String> =
     trim()
         .notBlank()
