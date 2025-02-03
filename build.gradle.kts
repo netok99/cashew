@@ -29,6 +29,7 @@ tasks {
     withType<KotlinCompile>().configureEach {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_12)
+            freeCompilerArgs.add("-Xcontext-receivers")
         }
     }
 
@@ -54,7 +55,6 @@ dependencies {
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.suspendapp)
     implementation(libs.logback.classic)
-    testImplementation(libs.ktor.server.tests)
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
 

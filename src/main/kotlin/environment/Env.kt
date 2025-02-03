@@ -1,22 +1,17 @@
-package com.env
+package com.environment
 
+import io.ktor.util.logging.KtorSimpleLogger
 import java.lang.System.getenv
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.days
 
 private const val PORT: Int = 8080
-private const val JDBC_URL: String = "jdbc:postgresql://localhost:5432/ktor-arrow-example-database"
+private const val JDBC_URL: String = "jdbc:postgresql://localhost:5432/postgres"
 private const val JDBC_USER: String = "postgres"
 private const val JDBC_PW: String = "postgres"
 private const val JDBC_DRIVER: String = "org.postgresql.Driver"
-private const val AUTH_SECRET: String = "MySuperStrongSecret"
-private const val AUTH_ISSUER: String = "KtorArrowExampleIssuer"
-private const val AUTH_DURATION: Int = 30
 
 data class Env(
     val dataSource: DataSource = DataSource(),
-    val http: Http = Http(),
-    val auth: Auth = Auth(),
+    val http: Http = Http()
 ) {
     data class Http(
         val host: String = getenv("HOST") ?: "0.0.0.0",
@@ -29,10 +24,6 @@ data class Env(
         val password: String = getenv("POSTGRES_PASSWORD") ?: JDBC_PW,
         val driver: String = JDBC_DRIVER,
     )
-
-    data class Auth(
-        val secret: String = getenv("JWT_SECRET") ?: AUTH_SECRET,
-        val issuer: String = getenv("JWT_ISSUER") ?: AUTH_ISSUER,
-        val duration: Duration = (getenv("JWT_DURATION")?.toIntOrNull() ?: AUTH_DURATION).days
-    )
 }
+
+val LOGGER = KtorSimpleLogger("com.cashew")

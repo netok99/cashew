@@ -26,6 +26,7 @@ coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ve
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor-version" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor-version" }
 ktor-server-defaultheaders = { module = "io.ktor:ktor-server-default-headers", version.ref = "ktor-version" }
+ktor-server-resources = { module = "io.ktor:ktor-server-resources", version.ref = "ktor-version" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor-version" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor-version" }
 ktor-client-resources = { module = "io.ktor:ktor-client-resources", version.ref = "ktor-version" }
@@ -66,7 +67,7 @@ ktor-server = [
     "ktor-server-netty",
     "ktor-serialization",
     "ktor-server-config-yaml",
-    "ktor-server-test-host"
+    "ktor-server-resources"
 ]
 ktor-client = [
     "ktor-client-content-negotiation",
