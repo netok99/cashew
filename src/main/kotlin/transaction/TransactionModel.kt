@@ -17,13 +17,13 @@ data class TransactionModel(
     val mcc: String
 )
 
-fun TransactionModel.validateAndTransformToTransaction(): Either<String, Transaction> =
+fun validateAndTransformToTransaction(model: TransactionModel): Either<String, Transaction> =
     zipOrAccumulate(
-        id.right(),
-        accountId.right(),
-        amount.validTotalAmount(),
-        merchant.validMerchant(),
-        mcc.validMcc(),
+        model.id.right(),
+        model.accountId.right(),
+        model.amount.validTotalAmount(),
+        model.merchant.validMerchant(),
+        model.mcc.validMcc(),
         ::TransactionModel
     ).map { validatedModel ->
         Transaction(

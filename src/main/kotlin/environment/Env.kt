@@ -1,6 +1,5 @@
 package com.environment
 
-import io.ktor.util.logging.KtorSimpleLogger
 import java.lang.System.getenv
 
 private const val PORT: Int = 8080
@@ -23,7 +22,9 @@ data class Env(
         val username: String = getenv("POSTGRES_USERNAME") ?: JDBC_USER,
         val password: String = getenv("POSTGRES_PASSWORD") ?: JDBC_PW,
         val driver: String = JDBC_DRIVER,
+        val isAutoCommit: Boolean = true,
+        val leakDetectionThreshold: Long = 30L * 1000,
+        val maximumPoolSize: Int = getenv("CASHEW_POOL_SIZE")?.toInt() ?: 8,
+        val poolName: String = "CashewPool"
     )
 }
-
-val LOGGER = KtorSimpleLogger("com.cashew")

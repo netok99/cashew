@@ -14,6 +14,8 @@ import io.ktor.server.resources.post
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 
+private const val RECOVER_TRANSACTIONS_ERROR_MESSAGE = "Error recovering transactions."
+
 @Resource("/transactions")
 data class TransactionsResource(val parent: RootResource = RootResource) {
 
@@ -23,17 +25,22 @@ data class TransactionsResource(val parent: RootResource = RootResource) {
 
 fun Route.transactionRoutes(transactionUseCase: TransactionUseCase) {
     get<TransactionsResource> {
-        call.respond(status = HttpStatusCode.OK, message = transactionUseCase.recoverTransactions())
+        transactionUseCase
+            .recoverTransactions()
+            .map { transactions ->
+                call.respond(status = HttpStatusCode.OK, message = transactions)
+            }
+            .getOrElse {
+                call.respond(status = HttpStatusCode.BadGateway, message = RECOVER_TRANSACTIONS_ERROR_MESSAGE)
+            }
     }
 
     post<TransactionsResource.New> {
-        Either
-            .runCatching {
-                call
-                    .receive<TransactionModel>()
-                    .validateAndTransformToTransaction()
-                    .map { transactionUseCase.createTransaction(it) }.getOrElse { none() }
-            }.map {
+        validateAndTransformToTransaction(call.receive<TransactionModel>())
+            .map {
+                transactionUseCase.createTransaction(it)
+            }
+            .map {
                 call.respond(status = HttpStatusCode.OK, message = operationToTransactionResult(it))
             }
             .getOrElse {

@@ -2,11 +2,12 @@
 
 package com.transaction
 
+import arrow.core.Either
 import com.wallet.walletModelToWallet
 import com.wallet.WalletUseCase
 
 interface TransactionService {
-    suspend fun getTransactions(): List<TransactionModel>
+    suspend fun getTransactions(): Either<String, List<Transaction>>
 
     suspend fun getTransaction(accountId: Int): List<TransactionModel>
 
@@ -17,8 +18,7 @@ class TransactionUseCase(
     private val transactionService: TransactionService,
     private val walletUseCase: WalletUseCase
 ) {
-
-    suspend fun recoverTransactions(): List<TransactionModel> = transactionService.getTransactions()
+    suspend fun recoverTransactions(): Either<String, List<Transaction>> = transactionService.getTransactions()
 
     suspend fun createTransaction(transaction: Transaction): Operation {
         val walletModel = walletUseCase.recoverWallet(transaction.accountId.value)

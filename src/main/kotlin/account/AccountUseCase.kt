@@ -16,9 +16,9 @@ class AccountUseCase(
     suspend fun recoverAccounts(): List<AccountModel> = accountService.getAccounts()
 
     suspend fun createAccount(username: String) = Either
-        .runCatching {
+        .catch {
             accountService.createAccount(username).id?.let {
                 walletUseCase.createWallet(it)
             }
-        }
+        }.mapLeft { it.message }
 }

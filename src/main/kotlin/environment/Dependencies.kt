@@ -1,15 +1,13 @@
 package com.environment
 
-import arrow.core.Either
-import arrow.core.getOrElse
 import arrow.fx.coroutines.ResourceScope
 import arrow.fx.coroutines.autoCloseable
-import com.account.accountService
-import com.transaction.transactionService
-import com.wallet.walletService
 import com.account.AccountUseCase
+import com.account.accountService
 import com.transaction.TransactionUseCase
+import com.transaction.transactionService
 import com.wallet.WalletUseCase
+import com.wallet.walletService
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import com.zaxxer.hikari.util.IsolationLevel
@@ -31,34 +29,25 @@ suspend fun ResourceScope.dependencies(env: Env): Dependencies {
         ),
         transactionUseCase = TransactionUseCase(
             transactionService = transactionService(database),
-            walletUseCase = walletUseCase),
+            walletUseCase = walletUseCase
+        ),
         walletUseCase = walletUseCase
     )
 }
 
 fun setupDatabase(dataSource: HikariDataSource): Database = runBlocking {
-    val database = Database(dataSource)
-    Either
-        .catch {
-            database.createTables()
-        }.map {
-            LOGGER.trace("Tables created.")
-        }.getOrElse {
-            LOGGER.warn("Something went wrong while trying to create the tables! Retrying again later.")
-            Thread.sleep(2_000)
-        }
-    return@runBlocking database
+    Database(dataSource).apply { createTables() }
 }
 
 suspend fun ResourceScope.hikari(env: Env.DataSource): HikariDataSource = autoCloseable {
     HikariDataSource(
         HikariConfig().apply {
-            driverClassName = "org.postgresql.Driver"
-            isAutoCommit = true
-            leakDetectionThreshold = 30L * 1000
+            driverClassName = env.driver
+            isAutoCommit = env.isAutoCommit
+            leakDetectionThreshold = env.leakDetectionThreshold
             transactionIsolation = IsolationLevel.TRANSACTION_READ_COMMITTED.name
-            maximumPoolSize = System.getenv("CASHEW_POOL_SIZE")?.toInt() ?: 8
-            poolName = "CashewPool"
+            maximumPoolSize = env.maximumPoolSize
+            poolName = env.poolName
             jdbcUrl = env.url
             username = env.username
             password = env.password

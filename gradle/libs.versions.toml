@@ -5,16 +5,22 @@ coroutines = "1.10.1"
 detekt = "1.23.7"
 dokka = "2.0.0"
 kotlin = "2.1.10"
+kotest = "5.8.0"
 kover = "0.9.1"
+kotest-plugin = "5.8.0"
 testcontainers = "1.19.3"
 kotlin-version = "2.1.10"
 ktor-version = "3.0.3"
+kotest-arrow="1.4.0"
+kotest-testcontainers="2.0.2"
 logback-version = "1.5.16"
 hikari = "6.2.1"
 sqldelight = "2.0.0"
 postgresql = "42.7.5"
 suspendapp = "0.5.0"
 cohort = "2.3.1"
+spotless="6.22.0"
+power-assert = "0.13.0"
 
 [libraries]
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
@@ -23,6 +29,13 @@ suspendapp = { module = "io.arrow-kt:suspendapp", version.ref = "suspendapp" }
 suspendapp-ktor = { module = "io.arrow-kt:suspendapp-ktor", version.ref = "suspendapp" }
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+kotest-assertionsCore = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+kotest-frameworkEngine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-runnerJUnit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-arrow = { module = "io.kotest.extensions:kotest-assertions-arrow", version.ref = "kotest-arrow" }
+kotest-arrow-fx = { module = "io.kotest.extensions:kotest-assertions-arrow-fx-coroutines", version.ref = "kotest-arrow" }
+kotest-testcontainers = { module = "io.kotest.extensions:kotest-extensions-testcontainers", version.ref = "kotest-testcontainers" }
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor-version" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor-version" }
 ktor-server-defaultheaders = { module = "io.ktor:ktor-server-default-headers", version.ref = "ktor-version" }
@@ -32,11 +45,13 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-resources = { module = "io.ktor:ktor-client-resources", version.ref = "ktor-version" }
 ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor-version" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor-version" }
+ktor-server-status-pages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor-version" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-version" }
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml", version.ref = "ktor-version" }
-ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor-version" }
+#ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktor-server-tests" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor-version" }
-kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-version" }
+#kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-version" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin-version" }
 testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
 detekt-gradle = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
@@ -51,11 +66,14 @@ arrowGradleConfig-formatter = { id = "io.arrow-kt.arrow-gradle-config-formatter"
 arrowGradleConfig-kotlin = { id = "io.arrow-kt.arrow-gradle-config-kotlin", version.ref = "arrowGradleConfig" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+kotest-multiplatform = { id = "io.kotest.multiplatform", version.ref = "kotest-plugin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-ktor = { id = "io.ktor.plugin", version.ref = "ktor-version" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor-version" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+power-assert = { id = "com.bnorm.power.kotlin-power-assert",  version.ref = "power-assert" }
 
 [bundles]
 arrow = ["arrow-core", "arrow-fx"]
@@ -67,12 +85,22 @@ ktor-server = [
     "ktor-server-netty",
     "ktor-serialization",
     "ktor-server-config-yaml",
-    "ktor-server-resources"
+    "ktor-server-resources",
+    "ktor-server-status-pages"
 ]
 ktor-client = [
     "ktor-client-content-negotiation",
     "ktor-client-serialization",
     "ktor-client-resources"
+]
+kotest = [
+    "kotest-assertionsCore",
+    "kotest-frameworkEngine",
+    "kotest-property",
+    "kotest-runnerJUnit5",
+    "kotest-arrow",
+    "kotest-arrow-fx",
+    "kotest-testcontainers"
 ]
 cohort = [
     "cohort-core",

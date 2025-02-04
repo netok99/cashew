@@ -1,17 +1,23 @@
 package com.transaction
 
+import arrow.core.Either
+import arrow.core.raise.either
 import com.environment.Database
 import java.sql.ResultSet
 
 fun transactionService(database: Database): TransactionService = object : TransactionService {
-    override suspend fun getTransactions(): List<TransactionModel> = database.withConnection {
+    override suspend fun getTransactions(): Either<String, List<Transaction>> = database.withConnection {
         val stmt = it.prepareStatement("SELECT id, account_id, amount, mcc, merchant, created_at FROM transaction")
         val resultSet = stmt.executeQuery()
-        return@withConnection mutableListOf<TransactionModel>().apply {
+        val transactions = mutableListOf<TransactionModel>().apply {
             while (resultSet.next()) {
                 add(convertToResultSetToTransactionModel(resultSet))
             }
         }
+        val validatedTransactions = either {
+            transactions.map(::validateAndTransformToTransaction).bindAll()
+        }
+        return@withConnection validatedTransactions
     }
 
     override suspend fun getTransaction(accountId: Int): List<TransactionModel> = database.withConnection {

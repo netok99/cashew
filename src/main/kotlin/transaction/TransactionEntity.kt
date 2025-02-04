@@ -11,17 +11,22 @@ import com.wallet.WalletModel
 import kotlinx.serialization.Serializable
 
 @JvmInline
+@Serializable
 value class Account(val value: Int)
 
 @JvmInline
+@Serializable
 value class Mcc(val value: String)
 
 @JvmInline
+@Serializable
 value class Amount(val value: Double)
 
 @JvmInline
+@Serializable
 value class Merchant(val value: String)
 
+@Serializable
 data class Transaction(
     val id: Int?,
     val accountId: Account,

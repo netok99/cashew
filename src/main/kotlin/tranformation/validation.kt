@@ -17,10 +17,6 @@ data class InvalidMcc(override val errors: NonEmptyList<String>) : InvalidField 
     override val field: String = "mcc"
 }
 
-data class InvalidAccount(override val errors: NonEmptyList<String>) : InvalidField {
-    override val field: String = "account"
-}
-
 data class InvalidMerchant(override val errors: NonEmptyList<String>) : InvalidField {
     override val field: String = "merchant"
 }

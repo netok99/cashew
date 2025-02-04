@@ -2,23 +2,26 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.ktor)
+    application
+    alias(libs.plugins.kotest.multiplatform)
     alias(libs.plugins.dokka)
-    alias(libs.plugins.detekt)
     alias(libs.plugins.kover)
     alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.ktor)
 }
 
 group = "com"
 version = "0.0.1"
 
 application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
-
+//    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass = "com.MainKt"
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+}
+
+allprojects {
+    extra.set("dokka.outputDirectory", rootDir.resolve("docs"))
 }
 
 repositories {
@@ -33,7 +36,7 @@ tasks {
         }
     }
 
-    test {
+    withType<Test>().configureEach {
         useJUnitPlatform()
     }
 }
@@ -46,20 +49,19 @@ ktor {
     }
 }
 
-kotlin {
-    jvmToolchain(12)
-}
-
 dependencies {
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.ktor.server)
+    implementation(libs.bundles.ktor.client)
     implementation(libs.bundles.suspendapp)
     implementation(libs.logback.classic)
+
     testImplementation(libs.ktor.server.test.host)
-    testImplementation(libs.kotlin.test.junit)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.testcontainers.postgresql)
+    testImplementation(libs.bundles.kotest)
 
     implementation(libs.hikari)
     implementation(libs.postgresql)
     implementation(libs.bundles.cohort)
-    testImplementation(libs.testcontainers.postgresql)
 }
