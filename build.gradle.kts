@@ -4,9 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "2.1.10"
     application
-    alias(libs.plugins.kotest.multiplatform)
-    alias(libs.plugins.dokka)
-    alias(libs.plugins.kover)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.ktor)
 }
@@ -53,16 +50,10 @@ dependencies {
     implementation(libs.bundles.arrow)
     implementation(libs.bundles.ktor.server)
     implementation(libs.bundles.ktor.client)
-    implementation(libs.bundles.suspendapp)
-    implementation(libs.logback.classic)
+    implementation(libs.hikari)
+    implementation(libs.postgresql)
 
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.testcontainers.postgresql)
-    testImplementation(libs.bundles.kotest)
-
-    implementation(libs.hikari)
-    implementation(libs.postgresql)
-    implementation(libs.bundles.cohort)
-    implementation(kotlin("stdlib-jdk8"))
 }
