@@ -30,9 +30,9 @@ value class Merchant(val value: String)
 data class Transaction(
     val id: Int?,
     val accountId: Account,
-    val mcc: Mcc,
+    val amount: Amount,
     val merchant: Merchant,
-    val amount: Amount
+    val mcc: Mcc
 ) {
     val categoryBenefit: CategoryBenefits = discoverCategoryBenefitsFromMcc(mcc)
 }
@@ -52,12 +52,12 @@ val transactionResultCodeToTransactionResult = { transactionResultCode: Transact
 
 val unknownTransactionResult = TransactionResult(TransactionResponse.UNKNOWN.code)
 
-
-private fun discoverCategoryBenefitsFromMcc(mcc: Mcc) = when (mcc.value) {
-    "5411", "5412" -> CategoryBenefits.FOOD
-    "5811", "5812" -> CategoryBenefits.MEAL
-    else -> CategoryBenefits.CASH
-}
+fun discoverCategoryBenefitsFromMcc(mcc: Mcc) =
+    when (mcc.value) {
+        "5411", "5412" -> CategoryBenefits.FOOD
+        "5811", "5812" -> CategoryBenefits.MEAL
+        else -> CategoryBenefits.CASH
+    }
 
 private fun calculateTransaction(transaction: Transaction, wallet: Wallet): Option<Double> {
     val operationValue = getAmountValueFromWalletCategory(
@@ -96,8 +96,9 @@ fun operationToWalletModel(walletModel: WalletModel, operation: Operation): Opti
             )
         }
 
-fun operationToTransactionResult(operation: Operation) = transactionResultCodeToTransactionResult(
-    operation
-        .map { TransactionResponse.APPROVED }
-        .getOrElse { TransactionResponse.REJECTED }
-)
+fun operationToTransactionResult(operation: Operation) =
+    transactionResultCodeToTransactionResult(
+        operation
+            .map { TransactionResponse.APPROVED }
+            .getOrElse { TransactionResponse.REJECTED }
+    )

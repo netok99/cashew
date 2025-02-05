@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    kotlin("jvm") version "2.1.10"
     application
     alias(libs.plugins.kotest.multiplatform)
     alias(libs.plugins.dokka)
@@ -14,8 +15,7 @@ group = "com"
 version = "0.0.1"
 
 application {
-//    mainClass.set("io.ktor.server.netty.EngineMain")
-    mainClass = "com.MainKt"
+    mainClass.set("io.ktor.server.netty.EngineMain")
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
@@ -64,4 +64,5 @@ dependencies {
     implementation(libs.hikari)
     implementation(libs.postgresql)
     implementation(libs.bundles.cohort)
+    implementation(kotlin("stdlib-jdk8"))
 }

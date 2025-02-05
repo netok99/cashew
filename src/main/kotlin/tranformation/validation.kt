@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.Either.Companion.zipOrAccumulate
 import arrow.core.EitherNel
 import arrow.core.NonEmptyList
+import arrow.core.left
 import arrow.core.leftNel
 import arrow.core.nonEmptyListOf
 import arrow.core.right
@@ -27,24 +28,20 @@ data class InvalidTotalAmount(override val errors: NonEmptyList<String>) : Inval
 
 private const val MCC_SIZE_LENGTH = 4
 
-fun String.validMcc(): EitherNel<InvalidMcc, String> {
+fun String.validMcc(): Either<InvalidMcc, String> {
     val trimmed = trim()
-    return zipOrAccumulate(
-        trimmed.notBlank(),
-        trimmed.expectedSize(MCC_SIZE_LENGTH)
-    ) { a, _ ->
-        a
-    }.mapLeft(toInvalidField(::InvalidMcc))
+    val regex = Regex(pattern = "^[0-9]{4}", options = setOf(RegexOption.IGNORE_CASE))
+    return if (regex.matches(trimmed)) {
+        trimmed.right()
+    } else {
+        InvalidMcc(nonEmptyListOf("Mcc: $trimmed is invalid")).left()
+    }
 }
 
-fun String.validMerchant(): Either<InvalidMerchant, String> =
-    trim()
-        .notBlank()
-        .mapLeft(::InvalidMerchant)
+fun String.validMerchant(): Either<InvalidMerchant, String> = trim().notBlank().mapLeft(::InvalidMerchant)
 
 fun Double.validTotalAmount(): Either<InvalidTotalAmount, Double> =
-    (if (this >= 0) right() else "Cannot be blank or less than 0".leftNel())
-        .mapLeft(::InvalidTotalAmount)
+    (if (this >= 0) right() else "Cannot be blank or less than 0".leftNel()).mapLeft(::InvalidTotalAmount)
 
 fun String.notBlank(): EitherNel<String, String> =
     if (isNotBlank()) right() else "Cannot be blank".leftNel()

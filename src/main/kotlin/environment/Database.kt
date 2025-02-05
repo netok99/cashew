@@ -29,16 +29,14 @@ class Database(private val dataSource: HikariDataSource) {
                 .execute(
                     """
                     DROP TABLE IF EXISTS account CASCADE;
-                    DROP TABLE IF EXISTS accounts CASCADE;
                         
                     CREATE TABLE IF NOT EXISTS account(
                          id SERIAL PRIMARY KEY,
                          username VARCHAR(255) UNIQUE NOT NULL
                      );
-                     
+
                     INSERT INTO account (username) VALUES ('Edson Arantes do Nascimento');
                                        
-                    DROP TABLE IF EXISTS wallets CASCADE;
                     DROP TABLE IF EXISTS wallet CASCADE;
                                                                
                     CREATE TABLE IF NOT EXISTS wallet(
@@ -52,7 +50,6 @@ class Database(private val dataSource: HikariDataSource) {
                     
                     INSERT INTO wallet (account_id, food, meal, cash) VALUES (1, 500.0, 500.0, 500.0);
 
-                    DROP TABLE IF EXISTS transactions CASCADE;
                     DROP TABLE IF EXISTS transaction CASCADE;
                     
                     CREATE TABLE IF NOT EXISTS transaction(

@@ -2,9 +2,9 @@
 
 package com.account
 
-import arrow.core.Either
 import arrow.core.getOrElse
 import com.wallet.RootResource
+import com.wallet.WalletService
 import io.ktor.http.HttpStatusCode
 import io.ktor.resources.Resource
 import io.ktor.server.request.receive
@@ -22,14 +22,17 @@ data class AccountsResource(val parent: RootResource = RootResource) {
     class New(val parent: AccountsResource = AccountsResource())
 }
 
-fun Route.accountsRoutes(accountUseCase: AccountUseCase) {
+fun Route.accountsRoutes(accountService: AccountService, walletService: WalletService) {
     get<AccountsResource> {
-        call.respond(status = HttpStatusCode.OK, message = accountUseCase.recoverAccounts())
+        call.respond(status = HttpStatusCode.OK, message = recoverAccounts(accountService))
     }
 
     post<AccountsResource.New> {
-        accountUseCase
-            .createAccount(call.receive<AccountModel>().username)
+        createAccount(
+            accountService = accountService,
+            walletService = walletService,
+            username = call.receive<AccountModel>().username
+        )
             .map {
                 call.respond(status = HttpStatusCode.OK, message = SUCCESS_CREATE_ACCOUNT_WALLET_MESSAGE)
             }

@@ -14,8 +14,8 @@ data object RootResource
 @Resource("/wallets")
 data class WalletsResource(val parent: RootResource = RootResource)
 
-fun Route.walletRoutes(walletUseCase: WalletUseCase) {
+fun Route.walletRoutes(walletService: WalletService) {
     get<WalletsResource> {
-        call.respond(status = HttpStatusCode.OK, message = walletUseCase.recoverWallets())
+        call.respond(status = HttpStatusCode.OK, message = recoverWallets(walletService))
     }
 }

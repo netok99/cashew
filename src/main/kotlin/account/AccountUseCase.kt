@@ -1,7 +1,8 @@
 package com.account
 
 import arrow.core.Either
-import com.wallet.WalletUseCase
+import com.wallet.WalletService
+import com.wallet.createWallet
 
 interface AccountService {
     suspend fun getAccounts(): List<AccountModel>
@@ -9,16 +10,11 @@ interface AccountService {
     suspend fun createAccount(username: String): AccountModel
 }
 
-class AccountUseCase(
-    private val accountService: AccountService,
-    private val walletUseCase: WalletUseCase
-) {
-    suspend fun recoverAccounts(): List<AccountModel> = accountService.getAccounts()
+suspend fun recoverAccounts(accountService: AccountService): List<AccountModel> = accountService.getAccounts()
 
-    suspend fun createAccount(username: String) = Either
-        .catch {
-            accountService.createAccount(username).id?.let {
-                walletUseCase.createWallet(it)
-            }
-        }.mapLeft { it.message }
-}
+suspend fun createAccount(accountService: AccountService, walletService: WalletService, username: String) = Either
+    .catch {
+        accountService.createAccount(username).id?.let {
+            createWallet(accountId = it, walletService = walletService)
+        }
+    }.mapLeft { it.message }

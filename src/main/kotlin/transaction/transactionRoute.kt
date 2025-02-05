@@ -1,11 +1,8 @@
-@file:Suppress("MatchingDeclarationName")
-
 package com.transaction
 
-import arrow.core.Either
 import arrow.core.getOrElse
-import arrow.core.none
 import com.wallet.RootResource
+import com.wallet.WalletService
 import io.ktor.http.HttpStatusCode
 import io.ktor.resources.Resource
 import io.ktor.server.request.receive
@@ -23,10 +20,9 @@ data class TransactionsResource(val parent: RootResource = RootResource) {
     class New(val parent: TransactionsResource = TransactionsResource())
 }
 
-fun Route.transactionRoutes(transactionUseCase: TransactionUseCase) {
+fun Route.transactionRoutes(transactionService: TransactionService, walletService: WalletService) {
     get<TransactionsResource> {
-        transactionUseCase
-            .recoverTransactions()
+        recoverTransactions(transactionService)
             .map { transactions ->
                 call.respond(status = HttpStatusCode.OK, message = transactions)
             }
@@ -37,8 +33,12 @@ fun Route.transactionRoutes(transactionUseCase: TransactionUseCase) {
 
     post<TransactionsResource.New> {
         validateAndTransformToTransaction(call.receive<TransactionModel>())
-            .map {
-                transactionUseCase.createTransaction(it)
+            .map { transaction ->
+                createTransaction(
+                    transaction = transaction,
+                    transactionService = transactionService,
+                    walletService = walletService
+                )
             }
             .map {
                 call.respond(status = HttpStatusCode.OK, message = operationToTransactionResult(it))
