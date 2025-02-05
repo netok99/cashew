@@ -31,7 +31,7 @@ fun Route.accountsRoutes(accountService: AccountService, walletService: WalletSe
         createAccount(
             accountService = accountService,
             walletService = walletService,
-            username = call.receive<AccountModel>().username
+            username = call.receive<Account>().username
         )
             .map {
                 call.respond(status = HttpStatusCode.OK, message = SUCCESS_CREATE_ACCOUNT_WALLET_MESSAGE)

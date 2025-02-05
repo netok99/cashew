@@ -1,18 +1,48 @@
 package com.transaction
 
-import arrow.core.Option
-import arrow.core.getOrElse
-import arrow.core.none
-import arrow.core.some
+import arrow.core.*
+import arrow.core.Either.Companion.zipOrAccumulate
+import com.tranformation.validMcc
+import com.tranformation.validMerchant
+import com.tranformation.validTotalAmount
 import com.wallet.CategoryBenefits
 import com.wallet.Wallet
 import com.wallet.getAmountValueFromWalletCategory
 import com.wallet.WalletModel
 import kotlinx.serialization.Serializable
 
+@Serializable
+data class TransactionModel(
+    val id: Int? = null,
+    val accountId: Int,
+    val amount: Double,
+    val merchant: String,
+    val mcc: String
+)
+
+fun validateAndTransformToTransaction(model: TransactionModel): Either<String, Transaction> =
+    zipOrAccumulate(
+        model.id.right(),
+        model.accountId.right(),
+        model.amount.validTotalAmount(),
+        model.merchant.validMerchant(),
+        model.mcc.validMcc(),
+        ::TransactionModel
+    ).map { validatedModel ->
+        Transaction(
+            id = validatedModel.id,
+            accountId = AccountId(validatedModel.accountId),
+            mcc = Mcc(validatedModel.mcc),
+            merchant = Merchant(validatedModel.merchant),
+            amount = Amount(validatedModel.amount)
+        )
+    }.mapLeft {
+        it.joinToString()
+    }
+
 @JvmInline
 @Serializable
-value class Account(val value: Int)
+value class AccountId(val value: Int)
 
 @JvmInline
 @Serializable
@@ -29,12 +59,16 @@ value class Merchant(val value: String)
 @Serializable
 data class Transaction(
     val id: Int?,
-    val accountId: Account,
+    val accountId: AccountId,
     val amount: Amount,
     val merchant: Merchant,
-    val mcc: Mcc
+    var mcc: Mcc
 ) {
     val categoryBenefit: CategoryBenefits = discoverCategoryBenefitsFromMcc(mcc)
+
+    fun validateMcc(newMccValue: String) {
+        mcc = if (mcc.value != newMccValue) Mcc(newMccValue) else mcc
+    }
 }
 
 enum class TransactionResponse(val code: String) {

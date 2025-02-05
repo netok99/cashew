@@ -60,6 +60,20 @@ class Database(private val dataSource: HikariDataSource) {
                         merchant VARCHAR(255) NOT NULL,
                         created_at TIMESTAMP WITH TIME ZONE
                     );
+                    
+                    DROP TABLE IF EXISTS merchant CASCADE;
+                    
+                    CREATE TABLE IF NOT EXISTS merchant(
+                        id SERIAL PRIMARY KEY,
+                        name VARCHAR(255) UNIQUE NOT NULL,
+                        mcc VARCHAR(4) NOT NULL,
+                        created_at TIMESTAMP WITH TIME ZONE
+                    );
+                    
+                    INSERT INTO wallet (name, mcc) VALUES ('UBER TRIP SAO PAULO BR', '4121');
+                    INSERT INTO wallet (name, mcc) VALUES ('UBER EATS SAO PAULO BR', '4121');
+                    INSERT INTO wallet (name, mcc) VALUES ('PAG*JoseDaSilva RIO DE JANEI BR', '5100');
+                    INSERT INTO wallet (name, mcc) VALUES ('PICPAY*BILHETEUNICO GOIANIA BR', '4122');
                     """.trimIndent()
                 )
         }

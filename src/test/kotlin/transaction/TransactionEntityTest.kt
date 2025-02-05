@@ -2,18 +2,7 @@ package transaction
 
 import arrow.core.none
 import arrow.core.some
-import com.transaction.Account
-import com.transaction.Amount
-import com.transaction.Mcc
-import com.transaction.Merchant
-import com.transaction.Operation
-import com.transaction.Transaction
-import com.transaction.TransactionResult
-import com.transaction.discoverCategoryBenefitsFromMcc
-import com.transaction.makeOperation
-import com.transaction.operationToTransactionResult
-import com.transaction.operationToWalletModel
-import com.transaction.unknownTransactionResult
+import com.transaction.*
 import com.wallet.CategoryBenefits
 import com.wallet.WalletModel
 import kotlin.test.Test
@@ -50,7 +39,7 @@ class TransactionEntityTest {
         val operation = makeOperation(
             transaction = Transaction(
                 id = 1,
-                accountId = Account(1),
+                accountId = AccountId(1),
                 mcc = Mcc("5811"),
                 merchant = Merchant("UBER TRIP SAO PAULO BR"),
                 amount = Amount(50.0)
@@ -78,7 +67,7 @@ class TransactionEntityTest {
         val operation = makeOperation(
             transaction = Transaction(
                 id = 1,
-                accountId = Account(1),
+                accountId = AccountId(1),
                 mcc = Mcc("5811"),
                 merchant = Merchant("UBER TRIP SAO PAULO BR"),
                 amount = Amount(600.0)

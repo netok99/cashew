@@ -1,7 +1,7 @@
 package account
 
 import client
-import com.account.AccountModel
+import com.account.Account
 import com.account.AccountsResource
 import com.wallet.WalletModel
 import com.wallet.WalletsResource
@@ -19,15 +19,15 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class AccountRouteTest {
+class AccountEntityRouteTest {
     @Test
     fun `get accounts`() = testApplication {
         val response = client().get(AccountsResource())
-        val expected = listOf(AccountModel(id = 1, username = "Edson Arantes do Nascimento"))
+        val expected = listOf(Account(id = 1, username = "Edson Arantes do Nascimento"))
 
         assertEquals(HttpStatusCode.OK, response.status)
-        assertTrue { response.body<List<AccountModel>>().isNotEmpty() }
-        assertEquals(expected = expected.first(), actual = response.body<List<AccountModel>>().first())
+        assertTrue { response.body<List<Account>>().isNotEmpty() }
+        assertEquals(expected = expected.first(), actual = response.body<List<Account>>().first())
     }
 
     @Test
@@ -35,7 +35,7 @@ class AccountRouteTest {
         val client = client()
         val createAccountResponse = client.post(AccountsResource.New()) {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
-            setBody(AccountModel(username = "Johan Cruijff"))
+            setBody(Account(username = "Johan Cruijff"))
         }
 
         assertEquals(HttpStatusCode.OK, createAccountResponse.status)
@@ -43,8 +43,8 @@ class AccountRouteTest {
 
         val accountsResponse = client.get(AccountsResource())
         val accountsExpected = listOf(
-            AccountModel(id = 1, username = "Edson Arantes do Nascimento"),
-            AccountModel(id = 2, username = "Johan Cruijff")
+            Account(id = 1, username = "Edson Arantes do Nascimento"),
+            Account(id = 2, username = "Johan Cruijff")
         )
 
         assertEquals(HttpStatusCode.OK, accountsResponse.status)
@@ -76,7 +76,7 @@ class AccountRouteTest {
     fun `create existing account fail`() = testApplication {
         val response = client().post(AccountsResource.New()) {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
-            setBody(AccountModel(username = "Edson Arantes do Nascimento"))
+            setBody(Account(username = "Edson Arantes do Nascimento"))
         }
 
         assertEquals(HttpStatusCode.BadGateway, response.status)

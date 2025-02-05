@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.1.10"
     application
+    alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.ktor)
 }
@@ -28,7 +28,7 @@ repositories {
 tasks {
     withType<KotlinCompile>().configureEach {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_12)
+            jvmTarget.set(JvmTarget.JVM_21)
             freeCompilerArgs.add("-Xcontext-receivers")
         }
     }
@@ -40,8 +40,8 @@ tasks {
 
 ktor {
     docker {
-        jreVersion = JavaVersion.VERSION_12
-        localImageName = "ktor-arrow-example"
+        jreVersion = JavaVersion.VERSION_21
+        localImageName = "cashew"
         imageTag = "latest"
     }
 }

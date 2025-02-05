@@ -11,11 +11,10 @@ import com.wallet.updateWallet
 interface TransactionService {
     suspend fun getTransactions(): Either<String, List<Transaction>>
 
-    suspend fun getTransaction(accountId: Int): List<TransactionModel>
-
     suspend fun createTransaction(transaction: Transaction)
-}
 
+    suspend fun getMcc(transaction: Transaction): String
+}
 
 suspend fun recoverTransactions(transactionService: TransactionService) = transactionService.getTransactions()
 
@@ -24,11 +23,9 @@ suspend fun createTransaction(
     transactionService: TransactionService,
     walletService: WalletService
 ): Operation {
-    val walletModel = recoverWallet(
-        accountId = transaction.accountId.value,
-        walletService = walletService
-    )
+    val walletModel = recoverWallet(accountId = transaction.accountId.value, walletService = walletService)
     val wallet = walletModelToWallet(walletModel)
+    transaction.validateMcc(transactionService.getMcc(transaction))
     val operation = makeOperation(transaction = transaction, wallet = wallet)
     transactionService.createTransaction(transaction)
     updateWallet(

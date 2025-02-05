@@ -5,12 +5,12 @@ import com.wallet.WalletService
 import com.wallet.createWallet
 
 interface AccountService {
-    suspend fun getAccounts(): List<AccountModel>
+    suspend fun getAccounts(): List<Account>
 
-    suspend fun createAccount(username: String): AccountModel
+    suspend fun createAccount(username: String): Account
 }
 
-suspend fun recoverAccounts(accountService: AccountService): List<AccountModel> = accountService.getAccounts()
+suspend fun recoverAccounts(accountService: AccountService): List<Account> = accountService.getAccounts()
 
 suspend fun createAccount(accountService: AccountService, walletService: WalletService, username: String) = Either
     .catch {

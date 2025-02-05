@@ -2,13 +2,7 @@ package transaction
 
 import arrow.core.left
 import arrow.core.right
-import com.transaction.Account
-import com.transaction.Amount
-import com.transaction.Mcc
-import com.transaction.Merchant
-import com.transaction.Transaction
-import com.transaction.TransactionModel
-import com.transaction.validateAndTransformToTransaction
+import com.transaction.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -25,7 +19,7 @@ class TransactionModelTest {
         val actual = validateAndTransformToTransaction(model)
         val expected = Transaction(
             id = 1,
-            accountId = Account(1),
+            accountId = AccountId(1),
             amount = Amount(50.0),
             mcc = Mcc("5411"),
             merchant = Merchant("UBER TRIP SAO PAULO BR")

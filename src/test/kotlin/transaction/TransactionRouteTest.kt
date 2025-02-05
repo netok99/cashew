@@ -1,16 +1,8 @@
 package transaction
 
 import client
-import com.account.AccountModel
 import com.account.AccountsResource
-import com.transaction.Account
-import com.transaction.Amount
-import com.transaction.Mcc
-import com.transaction.Merchant
-import com.transaction.Transaction
-import com.transaction.TransactionModel
-import com.transaction.TransactionResult
-import com.transaction.TransactionsResource
+import com.transaction.*
 import com.wallet.WalletModel
 import com.wallet.WalletsResource
 import io.ktor.client.call.body
@@ -34,7 +26,7 @@ class TransactionRouteTest {
         val response = client().get(TransactionsResource())
 
         assertEquals(HttpStatusCode.OK, response.status)
-        assertIs<List<AccountModel>>(response.body<List<AccountModel>>())
+        assertIs<List<com.account.Account>>(response.body<List<com.account.Account>>())
     }
 
     @Test
@@ -59,7 +51,7 @@ class TransactionRouteTest {
         val transactionsResponse = client.get(TransactionsResource())
         val transactionExpected = Transaction(
             id = 1,
-            accountId = Account(1),
+            accountId = AccountId(1),
             mcc = Mcc("5811"),
             merchant = Merchant("UBER TRIP SAO PAULO BR"),
             amount = Amount(50.0)
@@ -85,17 +77,7 @@ class TransactionRouteTest {
     fun `create existing account fail`() = testApplication {
         val response = client().post(AccountsResource.New()) {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
-            setBody(AccountModel(username = "Edson Arantes do Nascimento"))
-        }
-        assertEquals(HttpStatusCode.BadGateway, response.status)
-        assertEquals("Error recovering accounts.", response.bodyAsText())
-    }
-
-    @Test
-    fun `create existing account fail1`() = testApplication {
-        val response = client().post(AccountsResource.New()) {
-            header(HttpHeaders.ContentType, ContentType.Application.Json)
-            setBody(AccountModel(username = "Edson Arantes do Nascimento"))
+            setBody(com.account.Account(username = "Edson Arantes do Nascimento"))
         }
         assertEquals(HttpStatusCode.BadGateway, response.status)
         assertEquals("Error recovering accounts.", response.bodyAsText())
