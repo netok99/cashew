@@ -70,10 +70,10 @@ class Database(private val dataSource: HikariDataSource) {
                         created_at TIMESTAMP WITH TIME ZONE
                     );
                     
-                    INSERT INTO wallet (name, mcc) VALUES ('UBER TRIP SAO PAULO BR', '4121');
-                    INSERT INTO wallet (name, mcc) VALUES ('UBER EATS SAO PAULO BR', '4121');
-                    INSERT INTO wallet (name, mcc) VALUES ('PAG*JoseDaSilva RIO DE JANEI BR', '5100');
-                    INSERT INTO wallet (name, mcc) VALUES ('PICPAY*BILHETEUNICO GOIANIA BR', '4122');
+                    INSERT INTO merchant (name, mcc) VALUES ('UBER TRIP SAO PAULO BR', '4121');
+                    INSERT INTO merchant (name, mcc) VALUES ('UBER EATS SAO PAULO BR', '4121');
+                    INSERT INTO merchant (name, mcc) VALUES ('PAG*JoseDaSilva RIO DE JANEI BR', '5100');
+                    INSERT INTO merchant (name, mcc) VALUES ('PICPAY*BILHETEUNICO GOIANIA BR', '4122');
                     """.trimIndent()
                 )
         }

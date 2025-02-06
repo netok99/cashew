@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.bundles.ktor.client)
     implementation(libs.hikari)
     implementation(libs.postgresql)
+    implementation(libs.logback.classic)
 
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test)

@@ -15,7 +15,7 @@ private const val GET_TRANSACTIONS_QUERY =
 private const val CREATE_TRANSACTION_QUERY =
     "INSERT INTO transaction (account_id, amount, merchant, mcc) VALUES ($ACCOUNT_ID_PARAMETER, $AMOUNT_ID_PARAMETER," +
             " '$MERCHANT_ID_PARAMETER', '$MCC_ID_PARAMETER') RETURNING id;"
-private const val GET_MCC_QUERY = """SELECT mcc FROM MERCHANT where "name" = $NAME_PARAMETER;"""
+private const val GET_MCC_QUERY = """SELECT mcc FROM MERCHANT where "name" = '$NAME_PARAMETER';"""
 
 fun transactionService(database: Database): TransactionService = object : TransactionService {
     override suspend fun getTransactions(): Either<String, List<Transaction>> = database.withConnection {
@@ -53,7 +53,7 @@ fun transactionService(database: Database): TransactionService = object : Transa
         id = resultSet.getInt(1),
         accountId = resultSet.getInt(2),
         amount = resultSet.getDouble(3),
-        merchant = resultSet.getString(4),
-        mcc = resultSet.getString(5)
+        mcc = resultSet.getString(4),
+        merchant = resultSet.getString(5)
     )
 }
