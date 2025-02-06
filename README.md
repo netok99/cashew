@@ -8,35 +8,33 @@ Caju.
 
 - [Decisões técnicas](#decisões-técnicas)
 - [Ferramentas](#ferramentas)
-- [Executando a aplicação](#Executando-a-aplicação-e-comandos-uteis)
+- [Executando a aplicação e comandos úteis](#Executando-a-aplicação-e-comandos-uteis)
 - [Questoes do desafio](#questoes-do-desafio)
     + [L3 Dependente do comerciante](#L3-dependente-do-comerciante)
     + [L4. Questão aberta](#L4-questão-aberta)
 
 ## Decisões técnicas
 
-A app e uma API Rest que representa as operações de transações.
+O aplicativo é uma API REST que representa as operações de transações.
 Não estava claro no enunciado, porém para facilitar a utilização das funcionalidades foram criados endpoints para
-visualizar e, em alguns casos cadastrar, das entidades necessarias como conta(Account), transação(Transaction) e
+visualização e, em alguns casos, cadastrar das entidades necessárias como conta(Account), transação(Transaction) e
 carteira(Wallet).
 
-O desenho da solucao leva em conta que cada account tem uma wallet e possiveis transactions.
-Na criacao deuma account e criada uma wallet conjuntamente.
-Cada transaction valida modifica o valor de um beneficio contido na wallet.
-A referencia do beneficio a ser alterado vem do mcc. O mcc tem um mecanismo de correcao caso seja informado
+O desenho da solução leva em conta que cada account tem uma wallet e possíveis transactions.
+Na criação de account e criada uma wallet conjuntamente.
+Cada transaction valida modifica o valor de um benefício contido na wallet.
+A referência do benefício a ser alterado vem do mcc. Existe um mecanismo de correção caso seja informado
 equivocadamente o mcc da categoria do estabelecimento.
 
-Ao iniciar a app, por opcao, toda a base de dados e reconfigurada com o estado operacional inicial.
+Ao iniciar o aplicativo, por opção, toda a base de dados e reconfigurada com o estado operacional inicial.
 Esse estado tem uma account, como esperado uma wallet e sem transactions
-Assim, criando uma flexibilidade para replicar cenarios.
+Assim, criando uma flexibilidade para replicar cenários.
 
-Sobre a base de codigo. Foi focado no enunciado do teste para evitar over engineering, diferentes de cenarios
-empresariais.
-Nao foram usadas libs, como ORMs, para manter a simplicidade da solucao.
-Nao existe cobertura de testes alvo, como 80% de cobertura, o foco e em exibir bases de TDD.
+Sobre a base de código. Foi focado no enunciado do teste para evitar over engineering.
+Não foram usadas bibliotecas, como ORM's, na tentativa de manter a simplicidade da solução.
 
-Os termos das instancias nos paragrafos acima estao em ingles, como wallet ao inves de carteira, para ficar alinhado ao
-dominio implementado na base de codigo.
+Os termos das instâncias nos parágrafos acima estão em inglês, como wallet ao invés de carteira, para ficar alinhado ao
+domínio implementado na base de código.
 
 Segue a modelagem do banco de dados:
 ![Modelo banco de dados](images/db.png)
@@ -62,7 +60,7 @@ Segue a lista das principais ferramentas utilizadas no desenvolvimento:
 
 ---
 
-## Executando a aplicação e comandos uteis
+## Executando a aplicação e comandos úteis
 
 É necessário a instalação do Java e adição do mesmo nas variáveis de ambiente para que o Gradle funcione plenamente.
 
@@ -95,12 +93,12 @@ Ou se preferir executa os comandos acima via IDE.
 
 ---
 
-## Questoes do desafio
+## Questões do desafio
 
 ### L3 Dependente do comerciante
 
-A solucao adotada foi criar uma tabela no banco de dados que contem o registro do estabelecimento com o respectivo
-mcc correto. Assim, caso seja feita uma trasacao com o mcc informado incorretamente, a solucao vai recuperar o mcc
+A solução adotada foi criar uma tabela no banco de dados que contem o registro do estabelecimento com o respectivo
+mcc correto. Assim, caso seja feita uma transação com o mcc informado incorretamente, a solução vai recuperar o mcc
 correto previamente armazenado.
 
 ### L4 Questão aberta
@@ -123,16 +121,16 @@ Separando soluções para a pergunta em tópicos.
 - Método 1 - Validação:
 
 As transações são registradas em uma tabela no banco de dados.
-Toda nova transação será revisada chegando a existentência da mesma, indo ao banco de dados na tabela anteriormente
+Toda nova transação será revisada chegando a existência da mesma, indo ao banco de dados na tabela anteriormente
 citada.
-Um cenário de inundadação de requisição expõe o problema desse método. Solicitações simultâneas, com o mesmo payload,
+Um cenário de inundação de requisição expõe o problema desse método. Solicitações simultâneas, com o mesmo payload,
 em questão de frações de segundos, aumenta a possibilidade de registro duplicado da transação no sistema.
 A janela de tempo para recuperar as informações no baco de dados é o suficiente para possibilitar a criação
 acidental de registros indesejados.
 
 - Método 1 - Locking:
 
-A implementação é bastante semelhante ao método acima, no entanto, em vez de um banco do dados transacional tabelar,
+A implementação é bastante semelhante ao método acima, no entanto, em vez de um banco de dados transacional tabelar,
 poderíamos optar por armazenar em memória, como o Redis. Infelizmente, mesmo com esse método, ainda existe possibilidade
 acidentalmente da criação registros indesejados. Consultas na memória, que é mais veloz que a consulta no banco de
 dados, ainda são lenta o suficiente para registrar duplicatas.
@@ -151,5 +149,7 @@ O problema com esse método é que quanto mais distribuídos esses dados estão,
 se já é utilizada alguma estratégia de sharding na sua base de dados, é necessário soluções para adequação
 arquitetônica, como identificador único universal para identificar as transações.
 
-Dados os métodos com seus trade-offs, em cenários de microserviços eu iria com o método 3.
+Dados os métodos com seus trade-offs, em cenários de microserviços, eu iria com o método 3. 
 Caso fosse algo mais monolítico e em uma escala mais inicial, o método 4 poderia se encaixar como solução.    
+Fica a observação que em cenários reais precisamos de muitas outras variáveis, que muita das vezes ultrapassa
+analises técnicas, para escolher o caminho possível ideal.
