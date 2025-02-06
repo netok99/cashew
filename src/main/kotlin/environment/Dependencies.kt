@@ -26,21 +26,23 @@ fun dependencies(env: Env): Dependencies {
     )
 }
 
-private fun setupDatabase(dataSource: HikariDataSource): Database = runBlocking {
-    Database(dataSource).apply { createTables() }
-}
-
-private fun hikari(env: Env.DataSource): HikariDataSource = HikariDataSource(
-    HikariConfig().apply {
-        driverClassName = env.driver
-        isAutoCommit = env.isAutoCommit
-        leakDetectionThreshold = env.leakDetectionThreshold
-        transactionIsolation = IsolationLevel.TRANSACTION_READ_COMMITTED.name
-        maximumPoolSize = env.maximumPoolSize
-        poolName = env.poolName
-        jdbcUrl = env.url
-        username = env.username
-        password = env.password
-        driverClassName = env.driver
+private fun setupDatabase(dataSource: HikariDataSource): Database =
+    runBlocking {
+        Database(dataSource).apply { createTables() }
     }
-)
+
+private fun hikari(env: Env.DataSource): HikariDataSource =
+    HikariDataSource(
+        HikariConfig().apply {
+            driverClassName = env.driver
+            isAutoCommit = env.isAutoCommit
+            leakDetectionThreshold = env.leakDetectionThreshold
+            transactionIsolation = IsolationLevel.TRANSACTION_READ_COMMITTED.name
+            maximumPoolSize = env.maximumPoolSize
+            poolName = env.poolName
+            jdbcUrl = env.url
+            username = env.username
+            password = env.password
+            driverClassName = env.driver
+        }
+    )
