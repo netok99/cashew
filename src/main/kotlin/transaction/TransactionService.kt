@@ -14,7 +14,7 @@ private const val GET_TRANSACTIONS_QUERY =
     "SELECT id, account_id, amount, mcc, merchant, created_at FROM transaction ORDER BY id;"
 private const val CREATE_TRANSACTION_QUERY =
     "INSERT INTO transaction (account_id, amount, merchant, mcc) VALUES ($ACCOUNT_ID_PARAMETER, $AMOUNT_ID_PARAMETER," +
-            " '$MERCHANT_ID_PARAMETER', '$MCC_ID_PARAMETER') RETURNING id;"
+        " '$MERCHANT_ID_PARAMETER', '$MCC_ID_PARAMETER') RETURNING id;"
 private const val GET_MCC_QUERY = """SELECT mcc FROM MERCHANT where "name" = '$NAME_PARAMETER';"""
 
 fun transactionService(database: Database): TransactionService = object : TransactionService {

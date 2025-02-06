@@ -1,15 +1,14 @@
 package com.environment
 
 import com.zaxxer.hikari.HikariDataSource
-import java.sql.Connection
-import java.util.concurrent.Executors
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
+import java.sql.Connection
+import java.util.concurrent.Executors
 
 class Database(private val dataSource: HikariDataSource) {
-
     private val threadPool = Executors.newCachedThreadPool().asCoroutineDispatcher()
 
     private val permits = Semaphore(dataSource.maximumPoolSize * 4)

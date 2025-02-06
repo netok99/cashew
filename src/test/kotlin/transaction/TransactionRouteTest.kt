@@ -2,7 +2,14 @@ package transaction
 
 import client
 import com.account.AccountsResource
-import com.transaction.*
+import com.transaction.AccountId
+import com.transaction.Amount
+import com.transaction.Mcc
+import com.transaction.Merchant
+import com.transaction.Transaction
+import com.transaction.TransactionModel
+import com.transaction.TransactionResult
+import com.transaction.TransactionsResource
 import com.wallet.WalletModel
 import com.wallet.WalletsResource
 import io.ktor.client.call.body
@@ -62,12 +69,12 @@ class TransactionRouteTest {
 
         val walletsResponse = client.get(WalletsResource())
         val walletExpected = WalletModel(
-                id = 1,
-                accountId = 1,
-                food = 500.0,
-                meal = 450.0,
-                cash = 500.0
-            )
+            id = 1,
+            accountId = 1,
+            food = 500.0,
+            meal = 450.0,
+            cash = 500.0
+        )
 
         assertEquals(HttpStatusCode.OK, walletsResponse.status)
         assertTrue { walletsResponse.body<List<WalletModel>>().contains(walletExpected) }

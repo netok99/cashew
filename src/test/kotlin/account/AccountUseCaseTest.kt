@@ -13,7 +13,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class AccountUseCaseTest {
-
     private val accountService = mockk<AccountService>(relaxed = true)
     private val walletService = mockk<WalletService>(relaxed = true)
 

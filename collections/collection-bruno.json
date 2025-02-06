@@ -1,0 +1,159 @@
+{
+  "name": "cashew",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "accounts",
+      "seq": 2,
+      "request": {
+        "url": "http://127.0.0.1:8080/api/accounts",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "create transaction",
+      "seq": 7,
+      "request": {
+        "url": "http://127.0.0.1:8080/api/transactions/new",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"accountId\": 1,\n  \"amount\": 50.0,\n  \"merchant\": \"test\",\n  \"mcc\": \"5811\"\n}\n",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "create account",
+      "seq": 2,
+      "request": {
+        "url": "http://127.0.0.1:8080/api/accounts/new",
+        "method": "POST",
+        "headers": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"username\": \"Johan Cruijff\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "transactions",
+      "seq": 5,
+      "request": {
+        "url": "http://127.0.0.1:8080/api/transactions",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    },
+    {
+      "type": "http",
+      "name": "wallets",
+      "seq": 3,
+      "request": {
+        "url": "http://127.0.0.1:8080/api/wallets",
+        "method": "GET",
+        "headers": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "auth": {
+          "mode": "none",
+          "basic": {
+            "username": "",
+            "password": ""
+          },
+          "bearer": {
+            "token": ""
+          }
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "query": []
+      }
+    }
+  ],
+  "environments": []
+}

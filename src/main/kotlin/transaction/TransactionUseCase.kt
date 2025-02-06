@@ -1,12 +1,10 @@
-@file:Suppress("MatchingDeclarationName")
-
 package com.transaction
 
 import arrow.core.Either
 import com.wallet.WalletService
-import com.wallet.walletModelToWallet
 import com.wallet.recoverWallet
 import com.wallet.updateWallet
+import com.wallet.walletModelToWallet
 
 interface TransactionService {
     suspend fun getTransactions(): Either<String, List<Transaction>>

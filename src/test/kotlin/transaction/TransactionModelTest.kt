@@ -2,7 +2,13 @@ package transaction
 
 import arrow.core.left
 import arrow.core.right
-import com.transaction.*
+import com.transaction.AccountId
+import com.transaction.Amount
+import com.transaction.Mcc
+import com.transaction.Merchant
+import com.transaction.Transaction
+import com.transaction.TransactionModel
+import com.transaction.validateAndTransformToTransaction
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

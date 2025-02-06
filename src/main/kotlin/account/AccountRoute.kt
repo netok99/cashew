@@ -1,5 +1,3 @@
-@file:Suppress("MatchingDeclarationName")
-
 package com.account
 
 import arrow.core.getOrElse
@@ -22,7 +20,10 @@ data class AccountsResource(val parent: RootResource = RootResource) {
     class New(val parent: AccountsResource = AccountsResource())
 }
 
-fun Route.accountsRoutes(accountService: AccountService, walletService: WalletService) {
+fun Route.accountsRoutes(
+    accountService: AccountService,
+    walletService: WalletService
+) {
     get<AccountsResource> {
         call.respond(status = HttpStatusCode.OK, message = recoverAccounts(accountService))
     }

@@ -2,7 +2,18 @@ package transaction
 
 import arrow.core.none
 import arrow.core.some
-import com.transaction.*
+import com.transaction.AccountId
+import com.transaction.Amount
+import com.transaction.Mcc
+import com.transaction.Merchant
+import com.transaction.Operation
+import com.transaction.Transaction
+import com.transaction.TransactionResult
+import com.transaction.discoverCategoryBenefitsFromMcc
+import com.transaction.makeOperation
+import com.transaction.operationToTransactionResult
+import com.transaction.operationToWalletModel
+import com.transaction.unknownTransactionResult
 import com.wallet.CategoryBenefits
 import com.wallet.WalletModel
 import kotlin.test.Test

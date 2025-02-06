@@ -1,7 +1,6 @@
 package com.tranformation
 
 import arrow.core.Either
-import arrow.core.Either.Companion.zipOrAccumulate
 import arrow.core.EitherNel
 import arrow.core.NonEmptyList
 import arrow.core.left

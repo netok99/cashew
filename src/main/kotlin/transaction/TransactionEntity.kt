@@ -1,14 +1,19 @@
 package com.transaction
 
-import arrow.core.*
+import arrow.core.Either
 import arrow.core.Either.Companion.zipOrAccumulate
+import arrow.core.Option
+import arrow.core.getOrElse
+import arrow.core.none
+import arrow.core.right
+import arrow.core.some
 import com.tranformation.validMcc
 import com.tranformation.validMerchant
 import com.tranformation.validTotalAmount
 import com.wallet.CategoryBenefits
 import com.wallet.Wallet
-import com.wallet.getAmountValueFromWalletCategory
 import com.wallet.WalletModel
+import com.wallet.getAmountValueFromWalletCategory
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -93,7 +98,10 @@ fun discoverCategoryBenefitsFromMcc(mcc: Mcc) =
         else -> CategoryBenefits.CASH
     }
 
-private fun calculateTransaction(transaction: Transaction, wallet: Wallet): Option<Double> {
+private fun calculateTransaction(
+    transaction: Transaction,
+    wallet: Wallet
+): Option<Double> {
     val operationValue = getAmountValueFromWalletCategory(
         category = transaction.categoryBenefit,
         wallet = wallet
@@ -103,7 +111,10 @@ private fun calculateTransaction(transaction: Transaction, wallet: Wallet): Opti
 
 typealias Operation = Option<Wallet>
 
-fun makeOperation(transaction: Transaction, wallet: Wallet): Operation =
+fun makeOperation(
+    transaction: Transaction,
+    wallet: Wallet
+): Operation =
     calculateTransaction(
         transaction = transaction,
         wallet = wallet
@@ -118,7 +129,10 @@ fun makeOperation(transaction: Transaction, wallet: Wallet): Operation =
         none()
     }
 
-fun operationToWalletModel(walletModel: WalletModel, operation: Operation): Option<WalletModel> =
+fun operationToWalletModel(
+    walletModel: WalletModel,
+    operation: Operation
+): Option<WalletModel> =
     operation
         .map { wallet ->
             WalletModel(

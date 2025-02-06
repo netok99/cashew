@@ -13,12 +13,11 @@ private const val GET_WALLETS_QUERY = "SELECT id, account_id, food, meal, cash F
 private const val GET_WALLET_QUERY =
     """SELECT id, account_id, food, meal, cash FROM wallet WHERE "account_id" = $ACCOUNT_ID_PARAMETER"""
 private const val CREATE_WALLET_QUERY = "INSERT INTO wallet (account_id, food, meal, cash) VALUES " +
-        "($ACCOUNT_ID_PARAMETER, 500.0, 500.0, 500.0) RETURNING id;"
+    "($ACCOUNT_ID_PARAMETER, 500.0, 500.0, 500.0) RETURNING id;"
 private const val UPDATE_WALLET_QUERY = "UPDATE wallet SET food = $FOOD_PARAMETER, meal = $MEAL_PARAMETER, " +
-        "cash = $CASH_PARAMETER WHERE id = $ID_PARAMETER AND account_id = $ACCOUNT_ID_PARAMETER RETURNING id;"
+    "cash = $CASH_PARAMETER WHERE id = $ID_PARAMETER AND account_id = $ACCOUNT_ID_PARAMETER RETURNING id;"
 
 fun walletService(database: Database): WalletService = object : WalletService {
-
     override suspend fun getWallets(): List<WalletModel> = database.withConnection {
         val prepareStatement = it.prepareStatement(GET_WALLETS_QUERY)
         val resultSet = prepareStatement.executeQuery()

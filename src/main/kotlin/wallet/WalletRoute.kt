@@ -1,5 +1,3 @@
-@file:Suppress("MatchingDeclarationName")
-
 package com.wallet
 
 import io.ktor.http.HttpStatusCode

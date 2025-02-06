@@ -14,10 +14,19 @@ interface WalletService {
 
 suspend fun recoverWallets(walletService: WalletService) = walletService.getWallets()
 
-suspend fun recoverWallet(accountId: Int, walletService: WalletService): WalletModel =
+suspend fun recoverWallet(
+    accountId: Int,
+    walletService: WalletService
+): WalletModel =
     walletService.getWallet(accountId)
 
-suspend fun createWallet(accountId: Int, walletService: WalletService) = walletService.createWallet(accountId)
+suspend fun createWallet(
+    accountId: Int,
+    walletService: WalletService
+) = walletService.createWallet(accountId)
 
-suspend fun updateWallet(walletService: WalletService, walletToUpdate: Option<WalletModel>) =
+suspend fun updateWallet(
+    walletService: WalletService,
+    walletToUpdate: Option<WalletModel>
+) =
     walletService.updateWallet(walletToUpdate)

@@ -8,7 +8,8 @@ Caju.
 
 - [Decisões técnicas](#decisões-técnicas)
 - [Ferramentas](#ferramentas)
-- [Executando a aplicação e comandos úteis](#Executando-a-aplicação-e-comandos-uteis)
+- [Executando a aplicação e comandos úteis](#Executando-a-aplicação-e-comandos-úteis)
+- [Collections](#collections)
 - [Questoes do desafio](#questoes-do-desafio)
     + [L3 Dependente do comerciante](#L3-dependente-do-comerciante)
     + [L4. Questão aberta](#L4-questão-aberta)
@@ -92,6 +93,46 @@ Executar suite de testes:
 Ou se preferir executa os comandos acima via IDE.
 
 ---
+
+## Collections
+
+Na pasta collection, localizada na raiz do projeto, tem collections dos softwares Bruno e Postman.
+
+Segue abaixo os comandos cURL:
+
+```console
+curl --request GET \
+--url http://127.0.0.1:8080/api/accounts
+```
+
+```console
+curl --request POST \
+--url http://127.0.0.1:8080/api/accounts/new \
+--data '{
+"username": "Johan Cruijff"
+}'
+```
+
+```console
+curl --request GET \
+--url http://127.0.0.1:8080/api/wallets
+```
+
+```console
+curl --request GET \
+--url http://127.0.0.1:8080/api/transactions
+```
+
+```console
+curl --request POST \
+--url http://127.0.0.1:8080/api/transactions/new \
+--data '{
+"accountId": 1,
+"amount": 50.0,
+"merchant": "test",
+"mcc": "5811"
+}
+```
 
 ## Questões do desafio
 

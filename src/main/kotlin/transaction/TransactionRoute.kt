@@ -15,12 +15,14 @@ private const val RECOVER_TRANSACTIONS_ERROR_MESSAGE = "Error recovering transac
 
 @Resource("/transactions")
 data class TransactionsResource(val parent: RootResource = RootResource) {
-
     @Resource("new")
     class New(val parent: TransactionsResource = TransactionsResource())
 }
 
-fun Route.transactionRoutes(transactionService: TransactionService, walletService: WalletService) {
+fun Route.transactionRoutes(
+    transactionService: TransactionService,
+    walletService: WalletService
+) {
     get<TransactionsResource> {
         recoverTransactions(transactionService)
             .map { transactions ->

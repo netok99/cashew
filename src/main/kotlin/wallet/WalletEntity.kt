@@ -26,4 +26,7 @@ enum class CategoryBenefits {
     CASH
 }
 
-fun getAmountValueFromWalletCategory(category: CategoryBenefits, wallet: Wallet) = wallet[category]?.value ?: 0.0
+fun getAmountValueFromWalletCategory(
+    category: CategoryBenefits,
+    wallet: Wallet
+) = wallet[category]?.value ?: 0.0

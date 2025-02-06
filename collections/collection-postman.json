@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "cashew",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "accounts",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8080/api/accounts"
+      }
+    },
+    {
+      "name": "create transaction",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://127.0.0.1:8080/api/transactions/new",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"accountId\": 1,\n  \"amount\": 50.0,\n  \"merchant\": \"test\",\n  \"mcc\": \"5811\"\n}\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "create account",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://127.0.0.1:8080/api/accounts/new",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"Johan Cruijff\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "transactions",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8080/api/transactions"
+      }
+    },
+    {
+      "name": "wallets",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8080/api/wallets"
+      }
+    }
+  ],
+  "variable": []
+}

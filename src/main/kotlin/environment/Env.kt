@@ -14,7 +14,7 @@ data class Env(
 ) {
     data class Http(
         val host: String = getenv("HOST") ?: "0.0.0.0",
-        val port: Int = getenv("SERVER_PORT")?.toIntOrNull() ?: PORT,
+        val port: Int = getenv("SERVER_PORT")?.toIntOrNull() ?: PORT
     )
 
     data class DataSource(
