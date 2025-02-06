@@ -10,7 +10,7 @@ Caju.
 - [Ferramentas](#ferramentas)
 - [Executando a aplicação e comandos úteis](#Executando-a-aplicação-e-comandos-úteis)
 - [Collections](#collections)
-- [Questoes do desafio](#questoes-do-desafio)
+- [Questões do desafio](#questões-do-desafio)
     + [L3 Dependente do comerciante](#L3-dependente-do-comerciante)
     + [L4. Questão aberta](#L4-questão-aberta)
 
